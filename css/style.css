@@ -16,6 +16,10 @@
     --text-size: clamp(1rem, 2vw, 1.1rem);
     --small-text: 0.875rem;
     
+    /* Font Families */
+    --heading-font: 'Space Grotesk', sans-serif;
+    --body-font: 'Outfit', -apple-system, sans-serif;
+    
     /* Spacing Scale */
     --space-xs: 0.5rem;
     --space-sm: 1rem;
@@ -45,12 +49,18 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: var(--body-font);
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
     overflow-x: hidden;
     min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .logo, .nav-link {
+    font-family: var(--heading-font);
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 /* Container */
@@ -322,28 +332,99 @@ textarea {
 
 /* Buttons */
 .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2rem;
-    border-radius: 30px;
+    padding: 0.9rem 2.2rem;
     font-size: var(--text-size);
-    font-weight: 500;
+    font-weight: 600;
+    font-family: var(--heading-font);
+    letter-spacing: 0.02em;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
     border: none;
+    overflow: hidden;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(100%);
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.btn:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    z-index: -2;
+    transition: all 0.3s ease;
 }
 
 .btn-primary {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, rgba(10, 132, 255, 0.8), rgba(10, 132, 255, 0.4));
     color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(10, 132, 255, 0.3);
+    animation: pulse-glow 2s infinite alternate;
+}
+
+.btn-primary::after {
+    background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(10, 132, 255, 0.6));
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     color: var(--text-color);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary::after {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.15));
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Button glow animation */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 15px rgba(10, 132, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 25px rgba(10, 132, 255, 0.7), 0 0 40px rgba(10, 132, 255, 0.4);
+    }
+}
+
+/* Custom button effect for both buttons */
+.btn span {
+    position: relative;
+    z-index: 1;
 }
 
 /* Footer */
